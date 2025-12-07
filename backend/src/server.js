@@ -3,7 +3,6 @@ import cors from "cors"
 import {nanoid} from "nanoid"
 import {ENV} from "./config/env.conifg.js"
 import connectDB from "./config/db.config.js"
-import { ShortUrl } from "./models/shortUrl.model.js"
 import shortRouter from "./routes/shortUrl.route.js"
 
 const app = express()
@@ -18,10 +17,15 @@ app.use(express.urlencoded({extended: true}))
 app.use("/",shortRouter)
 
 const startServer = async()=> {
-    await connectDB()
-    app.listen(PORT,()=>{
-        console.log(`App is listening on PORT ${PORT}`)
-    })
+    try {
+        await connectDB()
+        app.listen(PORT,()=>{
+            console.log(`App is listening on PORT ${PORT}`)
+        })
+    } catch (error) {
+        console.error(`Error while starting server: ${error.message}`)
+        process.exit(1)
+    }
 }
 
 startServer()
