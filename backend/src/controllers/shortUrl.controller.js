@@ -1,3 +1,4 @@
+import { ENV } from "../config/env.conifg.js";
 import { ShortUrl } from "../models/shortUrl.model.js";
 import { generateNanoId } from "../utils/helper.js";
 
@@ -39,7 +40,7 @@ const createUrl = async (req, res) => {
       short_url: chotuUrl,
     });
     await newUrl.save();
-    res.send(`Short Url created successfully: ${chotuUrl}`);
+    res.send(`http://localhost:${ENV.PORT}/${chotuUrl}`);
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");
